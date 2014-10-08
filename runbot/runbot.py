@@ -463,7 +463,7 @@ class runbot_build(osv.osv):
         'name': fields.char('Revno', required=True, select=1),
         'host': fields.char('Host'),
         'port': fields.integer('Port'),
-        'dest': fields.function(_get_dest, type='char', string='Dest', readonly=1, store=True),
+        'dest': fields.function(lambda self, *args, **kwargs: self._get_dest(*args, **kwargs), type='char', string='Dest', readonly=1, store=True),
         'domain': fields.function(_get_domain, type='char', string='URL'),
         'date': fields.datetime('Commit date'),
         'author': fields.char('Author'),
