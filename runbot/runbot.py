@@ -410,7 +410,9 @@ class runbot_branch(osv.osv):
         'repo_id': fields.many2one('runbot.repo', 'Repository', required=True, ondelete='cascade', select=1),
         'name': fields.char('Ref Name', required=True),
         'branch_name': fields.function(_get_branch_name, type='char', string='Branch', readonly=1, store=True),
-        'branch_url': fields.function(_get_branch_url, type='char', string='Branch url', readonly=1),
+        'branch_url': fields.function(
+            lambda self, *a, **kw: self._get_branch_url(*a, **kw),
+            type='char', string='Branch url', readonly=1),
         'sticky': fields.boolean('Sticky', select=1),
         'coverage': fields.boolean('Coverage'),
         'state': fields.char('Status'),
