@@ -386,9 +386,12 @@ class runbot_repo(osv.osv):
         Build.kill(cr, uid, build_ids)
 
     def cron(self, cr, uid, ids=None, context=None):
-        ids = self.search(cr, uid, [('auto', '=', True)], context=context)
-        self.update(cr, uid, ids, context=context)
-        self.scheduler(cr, uid, ids, context=context)
+        for i in self.search(cr, uid, [('auto', '=', True)], context=context):
+            try:
+                self.update(cr, uid, [i], context=context)
+                self.scheduler(cr, uid, [i], context=context)
+            except Exception as e:
+                _logger.exception(openerp.tools.ustr(e))
         self.reload_nginx(cr, uid, context=context)
 
 class runbot_branch(osv.osv):
